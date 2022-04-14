@@ -1,4 +1,4 @@
-/* Pequeno sistema em JS e node que tem como 
+/* Pequeno sistema em JS e node usando a condicional if, que tem como 
 objetivo receber notas de um aluno e verificar se o mesmo 
 esta aprovado, em recuperação ou reprovado. */
 
