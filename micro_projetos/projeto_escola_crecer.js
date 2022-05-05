@@ -10,40 +10,71 @@ console.log(`
 
 // Are da Turma
 const listaTurmas = []
+const listaAlunos = []
 
 // Obj Turma
-function Turma(serie, numero){
+function Turma(serie, numero, mediaIdade){
     this.serie = serie,
     this.numero = numero
+    this.mediaIdade = mediaIdade
 }
 
-function Aluno(nome, idade){
-    this.nome = nome,
-    this.idade = idade,
+// Obj Alunos
+// function Aluno(nome, idade){
+//     this.nome = nome,
+//     this.idade = idade,
 
-    this.getNota = (n1, n2, n3, n4, tb) => {
-        n1, n2, n3, n4, tb
-    }
-}
+//     this.notas = (n1, n2, n3, n4, tb) => {
+//         n1, n2, n3, n4, tb
+//     }
+// }
 
 while(true){
 
     const cadastrar = input.question('Cadastrar Turma (1) - Cadastrar Aluno (2) ')
 
+    // Cadastro de turmas
     if(cadastrar == 1){
-        const nomeTurma = input.question('Nome da Turma: ')
-        const numeroTurma = input.question('Numero da Turma: ')
 
-        const turma = new Turma(nomeTurma, numeroTurma)
-        listaTurmas.push(turma)
-        console.log(listaTurmas)
+        console.log(`
+         ---------------------------------------------
+         |                Turmas                     |
+         ---------------------------------------------
+            (1) 201 - (2) 301 - (3) 401 - (4) 501
+        `)
+
+        const turmas = input.question('Criar turma: ')
+
+        if(turmas == 1){
+            const serie = '2° serie'
+            const numeroTurma = 201
+
+            const media_idade = listaAlunos.filter(i => i.idade < 4)            
+            const turma = new Turma(serie, numeroTurma, media_idade)
+            listaTurmas.push(turma)
+        }
+        
     }
+    // Cadastro de alunos
     else if(cadastrar == 2){
         const nomeAluno = input.question('Nome do Aluno: ')
-        const idade = input.question('Idade do Aluno: ')
+        const idade = parseInt(input.question('Idade do Aluno: '))
 
-        const aluno = new Aluno(nomeAluno, idade)
+        // OBS> objeto enjeçado
+        const aluno = {
+            nome: nomeAluno,
+            idade: idade,
+            notas: (n1, n2, n3, n4, tb) => {n1, n2, n3, n4, tb}
+        }
+
+        listaAlunos.push(aluno)
+        
     }
+    
+    console.log(listaTurmas)
+    console.log(listaAlunos)
+
+
 }
 
 
