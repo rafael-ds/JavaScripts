@@ -1,8 +1,9 @@
-function Turma (nome, numero, alunos, prof) {
+function Turma (nome, numero) {
     this.nome = nome
     this.numero = numero
-    this.alunos = alunos
-    this.prof = prof
+
+    this.getAlunos = alunos => {alunos}
+    this.getProf = prof => {prof}
 }
 
 module.exports = Turma
