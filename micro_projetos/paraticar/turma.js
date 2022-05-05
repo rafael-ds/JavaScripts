@@ -36,3 +36,5 @@ const turma2 = new Turma('3° Série', 301, idade_nv2)
 const turma3 = new Turma('4° Série', 402, idade_nv3)
 
 console.log(turma1.alunos)
+console.log(turma2.alunos)
+console.log(turma3.alunos)
