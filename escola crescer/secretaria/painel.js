@@ -11,6 +11,7 @@ console.log(`
                  ****** Secretaria ******
 `)
 
+// Lista que recebe os nomes dos professores que são cadastrados
 let listaProf = []
 
 // Função turma
@@ -21,7 +22,7 @@ function turmas(){
     const serie_4 = listaProf.filter(pf => pf.turma == 401)
     const serie_5 = listaProf.filter(pf => pf.turma == 501)
 
-    // Função que retorna somente o nome do professor do obj
+    // Funções que retornam somente o nome do professor
     function nome_prof(){
         for(i in serie_2){
             return serie_2[i].nome
@@ -45,6 +46,7 @@ function turmas(){
             return serie_5[i].nome
         }
     }
+
 
     const turma_1 = new Turma('2° serie', 201)
     turma_1.Prof = nome_prof()
@@ -98,24 +100,26 @@ function professores(){
 
 }
 
-
 while(true){
     const menu = input.question('(1) Turmas -- (2) Professores -- (3)Alunos -- (4)Sair\n')
 
     // Turmas
     if( menu == '1' ){
+        console.log(`\n========= Painel Turmas =========`)
         const menu_turmas = input.question('(1) Mostrar Turmas -- (2) Buscar por turma\n')
 
         switch(menu_turmas){
             case '1': 
-                turmas().forEach(t => console.log(`Serie: ${t.nome}, Numero: ${t.numero}, Professor: ${t.getProf}`))
+                turmas().forEach(t => console.log(`Serie: ${t.nome}, Numero: ${t.numero}, Professor: ${t.Prof}`))
+                console.log('')
                 break
 
             case '2':
                 const num_turma = input.question('Numero da turma:\n')
                 const busca = turmas().filter(nt => nt.numero == num_turma)
                 console.log(busca)
-                    break
+                console.log('')
+                break
         }
     }
 
