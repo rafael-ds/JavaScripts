@@ -1,9 +1,9 @@
 function Turma (nome, numero) {
-    this.nome = nome
-    this.numero = numero
+    this.nome = nome,
+    this.numero = numero,
 
-    this.getAlunos = alunos => {alunos}
-    this.getProf = prof => {prof}
+    this.Alunos = alunos => {alunos},
+    this.Prof = prof => {prof}
 }
 
 module.exports = Turma
