@@ -3,6 +3,8 @@ const Professor = require('./professores/professor')
 const Turma = require('./turmas/turma')
 
 const input = require('readline-sync')
+const fs = require('fs')
+
 
 console.log(`
 =============================================================
@@ -16,11 +18,12 @@ let listaProf = []
 
 // Função turma
 function turmas(){
-
-    const serie_2 = listaProf.filter(pf => pf.turma == 201)
-    const serie_3 = listaProf.filter(pf => pf.turma == 301)
-    const serie_4 = listaProf.filter(pf => pf.turma == 401)
-    const serie_5 = listaProf.filter(pf => pf.turma == 501)
+    const busca = require('./bd_secretraria.json')
+    
+    const serie_2 = busca.filter(pf => pf.turma == 201)
+    const serie_3 = busca.filter(pf => pf.turma == 301)
+    const serie_4 = busca.filter(pf => pf.turma == 401)
+    const serie_5 = busca.filter(pf => pf.turma == 501)
 
     // Funções que retornam somente o nome do professor
     function nome_prof(){
@@ -60,10 +63,8 @@ function turmas(){
     const turma_4 = new Turma('5° serie', 501)
     turma_4.Prof = nome_prof4()
 
-    // return [turma_1]
     return [turma_1, turma_2, turma_3, turma_4]
 }
-
 // Função Professores
 function professores(){
 
@@ -73,11 +74,25 @@ function professores(){
 
     switch(menu_prof){
         case '1':
+
+            // Lista temporario que recebe os dados 
+            // da const bd
+            let lista_temp_prof = []
+            const bd = require('./bd_secretraria.json')
+
+            // forEach da const bd que retorna os elementos
+            // e é adicionado a lista_temp, impedindo a criação de vetores
+            bd.forEach(p => (lista_temp_prof.push(p)))
+            
             const nome = input.question('Nome do professor(a):\n')
             const turma = input.question('Turma:\n')
-
+            
             const prof = new Professor(nome, turma)
-            listaProf.push(prof)
+            lista_temp_prof.push(prof)
+            
+            fs.writeFileSync(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
+                console.log(err || 'Salvo com sucesso!')
+            })
             break
 
         case '2':
