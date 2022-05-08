@@ -4,6 +4,7 @@ const Turma = require('./turmas/turma')
 
 const input = require('readline-sync')
 const fs = require('fs')
+const { exit } = require('process')
 
 
 console.log(`
@@ -68,21 +69,21 @@ function turmas(){
 // Função Professores
 function professores(){
 
+    // Lista temporario que recebe os dados 
+    // da const bd
+    let lista_temp_prof = []
+    const bd = require('./bd_secretraria.json')
+    
+    // forEach da const bd que retorna os elementos
+    // e é adicionado a lista_temp, impedindo a criação de vetores
+    bd.forEach(p => (lista_temp_prof.push(p)))
+    
     console.log(`========= Painel dos professores =========`)
-
-    const menu_prof = input.question('(1)Cadastrar -- (2)Editar  -- (3)Excluir -- (4)Buscar por nome')
-
+    
+    const menu_prof = input.question('(1)Cadastrar -- (2)Editar  -- (3)Excluir -- (4)Buscar por nome\n')
+    
     switch(menu_prof){
         case '1':
-
-            // Lista temporario que recebe os dados 
-            // da const bd
-            let lista_temp_prof = []
-            const bd = require('./bd_secretraria.json')
-
-            // forEach da const bd que retorna os elementos
-            // e é adicionado a lista_temp, impedindo a criação de vetores
-            bd.forEach(p => (lista_temp_prof.push(p)))
             
             const nome = input.question('Nome do professor(a):\n')
             const turma = input.question('Turma:\n')
@@ -90,14 +91,54 @@ function professores(){
             const prof = new Professor(nome, turma)
             lista_temp_prof.push(prof)
             
-            fs.writeFileSync(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
-                console.log(err || 'Salvo com sucesso!')
-            })
-            break
+            console.log('')
+            console.log(prof)
+            console.log('')
 
-        case '2':
-            console.log('editar')
+            const cadastrar = input.question('Confirmar cadastro: S/N\n')
+            if(cadastrar == 's'){
+                fs.writeFileSync(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
+                    console.log(err)
+                })
+                console.log('Cadastro realizado com sucesso! ')
+                break
+            }
+
             break
+            
+        case '2':
+            console.log(`\n******** Editar Prof ********\n`)
+            
+            const nome_prof = input.question('Informe o nome do professor: ')
+            const busca = lista_temp_prof.filter(p => p.nome == nome_prof)
+            console.log(busca)
+            console.log('')
+            
+            const editar = input.question('(1) Editar nome -- (2) Editar turma ')
+            console.log('')
+
+            switch(editar){
+                case '1':
+                    const novo_nome = input.question('Novo nome: ')
+
+                    busca.forEach(editar => editar.nome = novo_nome)
+                    console.log(busca)
+                    const confirme = input.question('Confirar atualização: S/N\n')
+                    
+                    if(confirme == 's'){
+                        fs.writeFile(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
+                            console.log( err )
+                        })
+                        console.log('Atualização realizada com sucesso! ')
+                        break
+                    }
+                    break
+                    
+                case '2':
+                    console.log('editar turma')
+            }
+
+        break
 
         case '3':
             console.log('excluir')
@@ -152,7 +193,7 @@ while(true){
         console.log('alunos')
     }
     else if( menu == '4' ){
-        break
+        exit()
     }
     
 }
