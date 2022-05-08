@@ -132,7 +132,12 @@ while(true){
             case '2':
                 const num_turma = input.question('Numero da turma:\n')
                 const busca = turmas().filter(nt => nt.numero == num_turma)
-                console.log(busca)
+                
+                console.log('')
+                console.log('=======================================')
+                busca.forEach(t => console.log(`Serie: ${t.nome}\nNumero: ${t.numero}\nProf(a).: ${t.Prof}\nAlunos: ${t.Alunos}`
+                ))
+                console.log('=======================================')
                 console.log('')
                 break
         }
