@@ -16,15 +16,16 @@ console.log(`
 
 // Lista que recebe os nomes dos professores que são cadastrados
 let listaProf = []
+const busca = require('./bd_secretaria.json')
+busca.forEach(dados => listaProf.push(dados))
 
 // Função turma
 function turmas(){
-    const busca = require('./bd_secretraria.json')
-    
-    const serie_2 = busca.filter(pf => pf.turma == 201)
-    const serie_3 = busca.filter(pf => pf.turma == 301)
-    const serie_4 = busca.filter(pf => pf.turma == 401)
-    const serie_5 = busca.filter(pf => pf.turma == 501)
+
+    const serie_2 = listaProf.filter(pf => pf.turma == 201)
+    const serie_3 = listaProf.filter(pf => pf.turma == 301)
+    const serie_4 = listaProf.filter(pf => pf.turma == 401)
+    const serie_5 = listaProf.filter(pf => pf.turma == 501)
 
     // Funções que retornam somente o nome do professor
     function nome_prof(){
@@ -68,15 +69,6 @@ function turmas(){
 }
 // Função Professores
 function professores(){
-
-    // Lista temporario que recebe os dados 
-    // da const bd
-    let lista_temp_prof = []
-    const bd = require('./bd_secretraria.json')
-    
-    // forEach da const bd que retorna os elementos
-    // e é adicionado a lista_temp, impedindo a criação de vetores
-    bd.forEach(p => (lista_temp_prof.push(p)))
     
     console.log(`========= Painel dos professores =========`)
     
@@ -84,37 +76,39 @@ function professores(){
     
     switch(menu_prof){
         case '1':
-            
+            console.log(`\n******** Cadastro de Prof ********\n`)
+
             const nome = input.question('Nome do professor(a):\n')
             const turma = input.question('Turma:\n')
             
             const prof = new Professor(nome, turma)
-            lista_temp_prof.push(prof)
-            
+            listaProf.push(prof)
+
             console.log('')
             console.log(prof)
             console.log('')
 
             const cadastrar = input.question('Confirmar cadastro: S/N\n')
             if(cadastrar == 's'){
-                fs.writeFileSync(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
+
+                fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
                     console.log(err)
                 })
                 console.log('Cadastro realizado com sucesso! ')
-                break
+                
             }
 
             break
             
         case '2':
-            console.log(`\n******** Editar Prof ********\n`)
+            console.log(`\n******** Edição de Prof ********\n`)
             
             const nome_prof = input.question('Informe o nome do professor: ')
-            const busca = lista_temp_prof.filter(p => p.nome == nome_prof)
+            const busca = listaProf.filter(p => p.nome == nome_prof)
             console.log(busca)
             console.log('')
             
-            const editar = input.question('(1) Editar nome -- (2) Editar turma ')
+            const editar = input.question('(1) Editar nome -- (2) Editar turma: ')
             console.log('')
 
             switch(editar){
@@ -123,19 +117,31 @@ function professores(){
 
                     busca.forEach(editar => editar.nome = novo_nome)
                     console.log(busca)
-                    const confirme = input.question('Confirar atualização: S/N\n')
+
+                    const conf_nome = input.question('Confirar atualização: S/N\n')
                     
-                    if(confirme == 's'){
-                        fs.writeFile(__dirname + '/bd_secretraria.json', JSON.stringify(lista_temp_prof), err => {
+                    if(conf_nome == 's'){
+                        fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
                             console.log( err )
                         })
                         console.log('Atualização realizada com sucesso! ')
-                        break
+                        
                     }
                     break
                     
-                case '2':
-                    console.log('editar turma')
+                    case '2':
+                        const nova_turma = input.question('Nova Turma: ')                        
+                        busca.forEach(editar => editar.turma = nova_turma)
+
+                        const conf_turma = input.question('Confirar atualização: S/N\n')
+
+                        if(conf_turma == 's'){
+                            fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                                console.log( err )
+                            })
+                            console.log('Atualização realizada com sucesso! ')
+                            
+                        }
             }
 
         break
@@ -151,7 +157,6 @@ function professores(){
 
         default:
             console.log('Não foi possivel realizar a operação')
-
     }
 
 }
@@ -193,7 +198,8 @@ while(true){
         console.log('alunos')
     }
     else if( menu == '4' ){
-        exit()
+        break
+
     }
     
 }
