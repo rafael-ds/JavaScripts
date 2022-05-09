@@ -110,14 +110,14 @@ function professores(){
             
             const editar = input.question('(1) Editar nome -- (2) Editar turma: ')
             console.log('')
-
+            
             switch(editar){
                 case '1':
                     const novo_nome = input.question('Novo nome: ')
-
+                    
                     busca.forEach(editar => editar.nome = novo_nome)
                     console.log(busca)
-
+                    
                     const conf_nome = input.question('Confirar atualização: S/N\n')
                     
                     if(conf_nome == 's'){
@@ -132,7 +132,7 @@ function professores(){
                     case '2':
                         const nova_turma = input.question('Nova Turma: ')                        
                         busca.forEach(editar => editar.turma = nova_turma)
-
+                        
                         const conf_turma = input.question('Confirar atualização: S/N\n')
 
                         if(conf_turma == 's'){
@@ -142,12 +142,32 @@ function professores(){
                             console.log('Atualização realizada com sucesso! ')
                             
                         }
-            }
+                    }
 
         break
 
         case '3':
-            console.log('excluir')
+            console.log(`\n******** Excluir Prof ********\n`)
+
+            const excluir_prof = input.question('Nome: ')
+            const confimar_excluir = input.question('Excuir? S?N: ')
+            console.log('')
+            // console.log(listaProf.filter(p => p.nome == excluir_prof))
+            // console.log('')
+
+            if(confimar_excluir == 's'){
+                
+                const dados = listaProf.filter(n => n.nome !== excluir_prof )
+
+                listaProf = []
+                dados.forEach(d => listaProf.push(d))
+
+                fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                    console.log(err)
+                })
+                console.log('Item excuido com sucesso! ')
+            }
+
             break
 
         case '4':
