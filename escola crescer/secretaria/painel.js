@@ -77,7 +77,7 @@ function professores(){
     switch(menu_prof){
         case '1':
             console.log(`\n******** Cadastro de Prof ********\n`)
-
+            
             const nome = input.question('Nome do professor(a):\n')
             const turma = input.question('Turma:\n')
             
@@ -87,26 +87,26 @@ function professores(){
             console.log('')
             console.log(prof)
             console.log('')
-
+            
             const cadastrar = input.question('Confirmar cadastro: S/N\n')
             if(cadastrar == 's'){
-
+                
                 fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
                     console.log(err)
                 })
                 console.log('Cadastro realizado com sucesso! ')
                 
             }
-
+            
             break
             
-        case '2':
-            console.log(`\n******** Edição de Prof ********\n`)
-            
-            const nome_prof = input.question('Informe o nome do professor: ')
-            const busca = listaProf.filter(p => p.nome == nome_prof)
-            console.log(busca)
-            console.log('')
+            case '2':
+                console.log(`\n******** Menu edição de Prof.(a) ********\n`)
+                
+                const nome_prof = input.question('Informe o nome do professor: ')
+                const busca = listaProf.filter(p => p.nome == nome_prof)
+                busca.forEach(n => console.log(`Prof.(a): ${n.nome}\nTurma: ${n.turma}`))
+                console.log('')
             
             const editar = input.question('(1) Editar nome -- (2) Editar turma: ')
             console.log('')
@@ -116,9 +116,8 @@ function professores(){
                     const novo_nome = input.question('Novo nome: ')
                     
                     busca.forEach(editar => editar.nome = novo_nome)
-                    console.log(busca)
                     
-                    const conf_nome = input.question('Confirar atualização: S/N\n')
+                    const conf_nome = input.question('Confirar atualizacao: S/N\n')
                     
                     if(conf_nome == 's'){
                         fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
@@ -133,8 +132,8 @@ function professores(){
                         const nova_turma = input.question('Nova Turma: ')                        
                         busca.forEach(editar => editar.turma = nova_turma)
                         
-                        const conf_turma = input.question('Confirar atualização: S/N\n')
-
+                        const conf_turma = input.question('Confirar atualizacao: S/N\n')
+                        
                         if(conf_turma == 's'){
                             fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
                                 console.log( err )
@@ -143,12 +142,12 @@ function professores(){
                             
                         }
                     }
-
+                    
         break
-
+        
         case '3':
             console.log(`\n******** Excluir Prof ********\n`)
-
+            
             const excluir_prof = input.question('Nome: ')
             const confimar_excluir = input.question('Excuir? S?N: ')
             console.log('')
@@ -171,10 +170,13 @@ function professores(){
             break
 
         case '4':
-            console.log('buscar')
-            console.log(listaProf)
+            console.log(`\n******** Buscar de Prof ********\n`)
+            const busca_prof = input.question('Nome do professor: ')
+            const dado = listaProf.filter(d => d.nome == busca_prof)
+            console.log('')
+            dado.forEach(i => console.log(`Prof.(a): ${i.nome},\nTurma: ${i.turma}`))
+            console.log('')
             break
-
         default:
             console.log('Não foi possivel realizar a operação')
     }
@@ -191,7 +193,10 @@ while(true){
 
         switch(menu_turmas){
             case '1': 
+            
+                console.log(`\n******** Turmas ********\n`)                
                 turmas().forEach(t => console.log(`Serie: ${t.nome}, Numero: ${t.numero}, Professor: ${t.Prof}`))
+                console.log(`\n************************\n`)
                 console.log('')
                 break
 
@@ -200,10 +205,9 @@ while(true){
                 const busca = turmas().filter(nt => nt.numero == num_turma)
                 
                 console.log('')
-                console.log('=======================================')
-                busca.forEach(t => console.log(`Serie: ${t.nome}\nNumero: ${t.numero}\nProf(a).: ${t.Prof}\nAlunos: ${t.Alunos}`
-                ))
-                console.log('=======================================')
+                console.log('************************************')
+                busca.forEach(t => console.log(`Serie: ${t.nome}\nNumero: ${t.numero}\nProf(a).: ${t.Prof}\nAlunos: ${t.Alunos}`))
+                console.log('************************************')
                 console.log('')
                 break
         }
