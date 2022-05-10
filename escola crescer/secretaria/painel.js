@@ -4,7 +4,6 @@ const Turma = require('./turmas/turma')
 
 const input = require('readline-sync')
 const fs = require('fs')
-const { exit } = require('process')
 
 
 console.log(`
@@ -16,6 +15,8 @@ console.log(`
 
 // Lista que recebe os nomes dos professores que são cadastrados
 let listaProf = []
+let listaAlunos = []
+
 const busca = require('./bd_secretaria.json')
 busca.forEach(dados => listaProf.push(dados))
 
@@ -55,6 +56,7 @@ function turmas(){
 
     const turma_1 = new Turma('2° serie', 201)
     turma_1.Prof = nome_prof()
+
 
     const turma_2 = new Turma('3° serie', 301)
     turma_2.Prof = nome_prof2()
@@ -183,6 +185,53 @@ function professores(){
 
 }
 
+// Função Alunos
+function alunos(){
+    console.log(`\n========= Painel Alunos =========\n`)
+
+    const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno')
+
+    switch(menu_alunos){
+        case '1':
+            const nome_aluno = input.question('Nome do aluno: ')
+            const idade_aluno = input.question('Idade do aluno: ')
+            
+            if(idade_aluno <= 3){
+                let turma_aluno = 201
+                const aluno = new Aluno(nome_aluno, idade_aluno, turma_aluno)
+                listaAlunos.push(aluno)
+            }
+            else if(idade_aluno >= 4 && idade_aluno <= 6){
+                let turma_aluno = 301
+                const aluno = new Aluno(nome_aluno, idade_aluno, turma_aluno)
+                listaAlunos.push(aluno)
+            }
+            else if(idade_aluno >= 7 && idade_aluno <= 9){
+                let turma_aluno = 401
+                const aluno = new Aluno(nome_aluno, idade_aluno, turma_aluno)
+                listaAlunos.push(aluno)
+            }
+            else if(idade_aluno >= 10 && idade_aluno <= 12){
+                let turma_aluno = 501
+                const aluno = new Aluno(nome_aluno, idade_aluno, turma_aluno)
+                listaAlunos.push(aluno)
+            }
+
+            console.log(listaAlunos)
+
+            break
+        case '2':
+            break
+        case '3':
+            break
+        case '4':
+            break
+        default:
+            confirm.log('Opção não encontrada.\n')
+            break
+    }
+}
+
 while(true){
     const menu = input.question('(1) Turmas -- (2) Professores -- (3)Alunos -- (4)Sair\n')
 
@@ -195,7 +244,8 @@ while(true){
             case '1': 
             
                 console.log(`\n******** Turmas ********\n`)                
-                turmas().forEach(t => console.log(`Serie: ${t.nome}, Numero: ${t.numero}, Professor: ${t.Prof}`))
+                // turmas().forEach(t => console.log(`Serie: ${t.nome}, Numero: ${t.numero}, Professor: ${t.Prof}`))
+                console.log(turmas())
                 console.log(`\n************************\n`)
                 console.log('')
                 break
@@ -219,7 +269,7 @@ while(true){
     }
     // Alunos
     else if( menu == '3' ){
-        console.log('alunos')
+        alunos()
     }
     else if( menu == '4' ){
         break
