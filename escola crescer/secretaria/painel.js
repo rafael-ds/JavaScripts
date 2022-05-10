@@ -17,8 +17,16 @@ console.log(`
 let listaProf = []
 let listaAlunos = []
 
-const busca = require('./bd_secretaria.json')
+//Consulta do dados dos professores e forEach para um
+// push na listaProf
+const busca = require('./bd_professores.json')
 busca.forEach(dados => listaProf.push(dados))
+
+//Consulta do dados dos alunos e forEach para um
+// push na listaAlunos
+const bd_alunos = require('./bd_alunos.json')
+bd_alunos.forEach(alunos => listaAlunos.push(alunos))
+
 
 // Função turma
 function turmas(){
@@ -93,23 +101,21 @@ function professores(){
             const cadastrar = input.question('Confirmar cadastro: S/N\n')
             if(cadastrar == 's'){
                 
-                fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
                     console.log(err)
                 })
                 console.log('Cadastro realizado com sucesso! ')
                 
-            }
-            
+            }            
             break
             
-            case '2':
-                console.log(`\n******** Menu edição de Prof.(a) ********\n`)
-                
-                const nome_prof = input.question('Informe o nome do professor: ')
-                const busca = listaProf.filter(p => p.nome == nome_prof)
-                busca.forEach(n => console.log(`Prof.(a): ${n.nome}\nTurma: ${n.turma}`))
-                console.log('')
+        case '2':
+            console.log(`\n******** Menu edição de Prof.(a) ********\n`)
             
+            const nome_prof = input.question('Informe o nome do professor: ')
+            const busca = listaProf.filter(p => p.nome == nome_prof)
+            busca.forEach(n => console.log(`\nProf.(a): ${n.nome}\nTurma: ${n.turma}\n`))
+        
             const editar = input.question('(1) Editar nome -- (2) Editar turma: ')
             console.log('')
             
@@ -122,7 +128,7 @@ function professores(){
                     const conf_nome = input.question('Confirar atualizacao: S/N\n')
                     
                     if(conf_nome == 's'){
-                        fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                        fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
                             console.log( err )
                         })
                         console.log('Atualização realizada com sucesso! ')
@@ -130,22 +136,22 @@ function professores(){
                     }
                     break
                     
-                    case '2':
-                        const nova_turma = input.question('Nova Turma: ')                        
-                        busca.forEach(editar => editar.turma = nova_turma)
-                        
-                        const conf_turma = input.question('Confirar atualizacao: S/N\n')
-                        
-                        if(conf_turma == 's'){
-                            fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
-                                console.log( err )
-                            })
-                            console.log('Atualização realizada com sucesso! ')
-                            
-                        }
-                    }
+                case '2':
+                    const nova_turma = input.question('Nova Turma: ')                        
+                    busca.forEach(editar => editar.turma = nova_turma)
                     
-        break
+                    const conf_turma = input.question('Confirar atualizacao: S/N\n')
+                    
+                    if(conf_turma == 's'){
+                        fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                            console.log( err )
+                        })
+                        console.log('Atualização realizada com sucesso! ')
+                        
+                    }
+                    break
+            }  
+            break
         
         case '3':
             console.log(`\n******** Excluir Prof ********\n`)
@@ -163,7 +169,7 @@ function professores(){
                 listaProf = []
                 dados.forEach(d => listaProf.push(d))
 
-                fs.writeFile(__dirname + '/bd_secretaria.json', JSON.stringify(listaProf), err => {
+                fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
                     console.log(err)
                 })
                 console.log('Item excuido com sucesso! ')
@@ -173,12 +179,13 @@ function professores(){
 
         case '4':
             console.log(`\n******** Buscar de Prof ********\n`)
+            
             const busca_prof = input.question('Nome do professor: ')
             const dado = listaProf.filter(d => d.nome == busca_prof)
-            console.log('')
-            dado.forEach(i => console.log(`Prof.(a): ${i.nome},\nTurma: ${i.turma}`))
-            console.log('')
+            dado.forEach(i => console.log(`\nProf.(a): ${i.nome},\nTurma: ${i.turma}\n`))
+            
             break
+
         default:
             console.log('Não foi possivel realizar a operação')
     }
@@ -189,10 +196,12 @@ function professores(){
 function alunos(){
     console.log(`\n========= Painel Alunos =========\n`)
 
-    const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno')
-
+    const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno -- (5) Mostar alunos')
+    
     switch(menu_alunos){
         case '1':
+            console.log(`\n******** Cadastrar Aluno ********\n`)
+
             const nome_aluno = input.question('Nome do aluno: ')
             const idade_aluno = input.question('Idade do aluno: ')
             
@@ -217,17 +226,80 @@ function alunos(){
                 listaAlunos.push(aluno)
             }
 
-            console.log(listaAlunos)
+            const cad_aluno = input.question('Confirmar cadastro: S/N ')
+            switch(cad_aluno){
+                case 's':
+                    fs.writeFile(__dirname + '/bd_alunos.json', JSON.stringify(listaAlunos), err => {
+                        console.log(err)
+                    })
+                    console.log('Cadastro realizado com sucesso! ')
+                default:
+                    break
+            }
 
             break
+        
         case '2':
+            console.log(`\n******** Editar Aluno ********\n`)
+            
+            const buscar_aluno = input.question('Nome do Aluno: ')
+            const busca = listaAlunos.filter(p => p.nome == buscar_aluno)
+            busca.forEach(n => console.log(`\nAluno(a): ${n.nome}\nIdade: ${n.idade}\nTurma: ${n.turma}\n`))
+            
+            const editar = input.question('(1) Editar nome -- (2) Editar idade -- (3) Editar turma -- (4) -- Editar notas -- (5) Sair')
+            console.log('')
+            
+            switch(editar){
+                
+                case '1':
+                    console.log(`\n******** Editar Nome ********\n`)
+                    const novo_nome = input.question('Novo nome: ')
+
+                    busca.forEach(n => n.nome = novo_nome)
+                    const conf_nome = input.question('Confirmar: S/N ')
+
+                    switch(conf_nome){
+
+                        case 's':
+                            fs.writeFile(__dirname + '/bd_alunos.json', JSON.stringify(listaAlunos), err => {
+                                console.log(err)
+                            })
+                            console.log('Atualização realizado com sucesso!\n')
+                            break
+
+                        case 'n':
+                            break
+
+                        default:
+                            console.log('Opção incorreta\n')
+                    }                    
+                    break
+
+                case '2':
+                    break
+                case '3':
+                    break
+                case '4':
+                    break
+                case '5':
+                    break
+                default:
+                    console.log('Opção incorreta.')
+
+            }
+
+    
             break
+
         case '3':
             break
         case '4':
             break
+        case '5':
+            console.log(listaAlunos)
+            break
         default:
-            confirm.log('Opção não encontrada.\n')
+            console.log('Opção não encontrada.\n')
             break
     }
 }
