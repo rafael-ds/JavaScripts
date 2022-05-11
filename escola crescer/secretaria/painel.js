@@ -27,6 +27,16 @@ busca.forEach(dados => listaProf.push(dados))
 const bd_alunos = require('./bd_alunos.json')
 bd_alunos.forEach(alunos => listaAlunos.push(alunos))
 
+function save_bd(banco, lista){
+    /* função que tem como objetivo acessar um determinado arquivo .json 
+        -> Parametro 'banco': recebe uma string referente ao local do arquivo .json
+        -> Parametro 'lista': recebe a lista que sera gerada no arquivo .json
+    */
+
+    fs.writeFile(__dirname + banco, JSON.stringify(lista), err => {
+        console.log(err)
+    })
+}
 
 // Função turma
 function turmas(){
@@ -81,9 +91,8 @@ function turmas(){
 function professores(){
     
     console.log(`========= Painel dos professores =========`)
-    
     const menu_prof = input.question('(1)Cadastrar -- (2)Editar  -- (3)Excluir -- (4)Buscar por nome\n')
-    
+
     switch(menu_prof){
         case '1':
             console.log(`\n******** Cadastro de Prof ********\n`)
@@ -101,9 +110,7 @@ function professores(){
             const cadastrar = input.question('Confirmar cadastro: S/N\n')
             if(cadastrar == 's'){
                 
-                fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
-                    console.log(err)
-                })
+                save_bd('/bd_professores.json', listaProf)
                 console.log('Cadastro realizado com sucesso! ')
                 
             }            
@@ -128,9 +135,10 @@ function professores(){
                     const conf_nome = input.question('Confirar atualizacao: S/N\n')
                     
                     if(conf_nome == 's'){
-                        fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
-                            console.log( err )
-                        })
+                        // fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
+                        //     console.log( err )
+                        // })
+                        save_bd('/bd_professores.json', listaProf)
                         console.log('Atualização realizada com sucesso! ')
                         
                     }
@@ -169,9 +177,7 @@ function professores(){
                 listaProf = []
                 dados.forEach(d => listaProf.push(d))
 
-                fs.writeFile(__dirname + '/bd_professores.json', JSON.stringify(listaProf), err => {
-                    console.log(err)
-                })
+                save_bd('/bd_professores.json', listaProf)
                 console.log('Item excuido com sucesso! ')
             }
 
@@ -194,9 +200,10 @@ function professores(){
 
 // Função Alunos
 function alunos(){
-    console.log(`\n========= Painel Alunos =========\n`)
+    console.log(`\n========= Painel Alunos =========\n`)   
+    const salvar = save_bd('/bd_alunos.json', listaAlunos)
 
-    const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno -- (5) Mostar alunos')
+    const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno -- (5) Mostar alunos ')
     
     switch(menu_alunos){
         case '1':
@@ -227,11 +234,10 @@ function alunos(){
             }
 
             const cad_aluno = input.question('Confirmar cadastro: S/N ')
+            
             switch(cad_aluno){
                 case 's':
-                    fs.writeFile(__dirname + '/bd_alunos.json', JSON.stringify(listaAlunos), err => {
-                        console.log(err)
-                    })
+                    salvar
                     console.log('Cadastro realizado com sucesso! ')
                 default:
                     break
@@ -246,7 +252,7 @@ function alunos(){
             const busca = listaAlunos.filter(p => p.nome == buscar_aluno)
             busca.forEach(n => console.log(`\nAluno(a): ${n.nome}\nIdade: ${n.idade}\nTurma: ${n.turma}\n`))
             
-            const editar = input.question('(1) Editar nome -- (2) Editar idade -- (3) Editar turma -- (4) -- Editar notas -- (5) Sair')
+            const editar = input.question('(1) Editar nome -- (2) Editar idade -- (3) Editar turma -- (4) -- Editar notas -- (5) Sair ')
             console.log('')
             
             switch(editar){
@@ -257,28 +263,27 @@ function alunos(){
 
                     busca.forEach(n => n.nome = novo_nome)
                     const conf_nome = input.question('Confirmar: S/N ')
-
-                    switch(conf_nome){
-
-                        case 's':
-                            fs.writeFile(__dirname + '/bd_alunos.json', JSON.stringify(listaAlunos), err => {
-                                console.log(err)
-                            })
-                            console.log('Atualização realizado com sucesso!\n')
-                            break
-
-                        case 'n':
-                            break
-
-                        default:
-                            console.log('Opção incorreta\n')
-                    }                    
+                    confirmar(conf_nome)                                
                     break
 
                 case '2':
+                    console.log(`\n******** Editar idade ********\n`)
+                    const nova_idade = input.question('Nova idade: ')
+
+                    busca.forEach(i => i.idade = nova_idade)
+                    const conf_idade = input.question('Confirmar: S/N ')
+                    confirmar(conf_idade)
                     break
+                    
                 case '3':
+                    console.log(`\n******** Editar turma ********\n`)
+                    const nova_turma = input.question('Nova turma: ')
+
+                    busca.forEach(t => t.turma = nova_turma)
+                    const conf_turma = input.question('Confirmar: S/N ')
+                    confirmar(conf_turma)
                     break
+
                 case '4':
                     break
                 case '5':
@@ -288,7 +293,21 @@ function alunos(){
 
             }
 
-    
+            function confirmar(c){
+                switch(c){
+                    case 's':
+                        salvar
+                        console.log('Atualização realizado com sucesso!\n')
+                        break
+
+                    case 'n':
+                        break
+
+                    default:
+                        console.log('Opção incorreta\n')
+                }
+            }
+
             break
 
         case '3':
