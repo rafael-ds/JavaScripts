@@ -27,64 +27,39 @@ busca.forEach(dados => listaProf.push(dados))
 const bd_alunos = require('./bd_alunos.json')
 bd_alunos.forEach(alunos => listaAlunos.push(alunos))
 
-function save_bd(banco, lista){
+function save_bd(dir, lista){
     /* função que tem como objetivo acessar um determinado arquivo .json 
         -> Parametro 'banco': recebe uma string referente ao local do arquivo .json
         -> Parametro 'lista': recebe a lista que sera gerada no arquivo .json
     */
 
-    fs.writeFile(__dirname + banco, JSON.stringify(lista), err => {
+    fs.writeFile(__dirname + dir, JSON.stringify(lista), err => {
         console.log(err)
     })
 }
 
 // Função turma
 function turmas(){
+    
+    // Turmas
+    const turma_1 = new Turma('2° serie', 201)
+    const turma_2 = new Turma('3° serie', 301)
+    const turma_3 = new Turma('4° serie', 401)
+    const turma_4 = new Turma('5° serie', 501)
 
+    // Filtro que retorna cada prof. de sua respetiva turma
     const serie_2 = listaProf.filter(pf => pf.turma == 201)
     const serie_3 = listaProf.filter(pf => pf.turma == 301)
     const serie_4 = listaProf.filter(pf => pf.turma == 401)
     const serie_5 = listaProf.filter(pf => pf.turma == 501)
 
-    // Funções que retornam somente o nome do professor
-    function nome_prof(){
-        for(i in serie_2){
-            return serie_2[i].nome
-        }
-    }
-
-    function nome_prof2(){
-        for(i in serie_3){
-            return serie_3[i].nome
-        }
-    }
-
-    function nome_prof3(){
-        for(i in serie_4){
-            return serie_4[i].nome
-        }
-    }
-
-    function nome_prof4(){
-        for(i in serie_5){
-            return serie_5[i].nome
-        }
-    }
-
-
-    const turma_1 = new Turma('2° serie', 201)
-    turma_1.Prof = nome_prof()
-
-
-    const turma_2 = new Turma('3° serie', 301)
-    turma_2.Prof = nome_prof2()
-
-    const turma_3 = new Turma('4° serie', 401)
-    turma_3.Prof = nome_prof3()
-
-    const turma_4 = new Turma('5° serie', 501)
-    turma_4.Prof = nome_prof4()
-
+    // Buscando e implementado o nome dos professores nas turmas 
+    // correspondentes
+    serie_2.forEach(i => turma_1.Prof = i.nome)
+    serie_3.forEach(i => turma_2.Prof = i.nome)
+    serie_4.forEach(i => turma_3.Prof = i.nome)
+    serie_5.forEach(i => turma_4.Prof = i.nome)    
+    
     return [turma_1, turma_2, turma_3, turma_4]
 }
 // Função Professores
@@ -167,8 +142,6 @@ function professores(){
             const excluir_prof = input.question('Nome: ')
             const confimar_excluir = input.question('Excuir? S?N: ')
             console.log('')
-            // console.log(listaProf.filter(p => p.nome == excluir_prof))
-            // console.log('')
 
             if(confimar_excluir == 's'){
                 
@@ -201,7 +174,6 @@ function professores(){
 // Função Alunos
 function alunos(){
     console.log(`\n========= Painel Alunos =========\n`)   
-    const salvar = save_bd('/bd_alunos.json', listaAlunos)
 
     const menu_alunos = input.question('(1) Cadastrar Aluno -- (2) Editar Aluno -- (3) Excluir Aluno -- (4) Buscar Aluno -- (5) Mostar alunos ')
     
@@ -237,7 +209,7 @@ function alunos(){
             
             switch(cad_aluno){
                 case 's':
-                    salvar
+                    save_bd('/bd_alunos.json', listaAlunos)
                     console.log('Cadastro realizado com sucesso! ')
                 default:
                     break
@@ -247,6 +219,23 @@ function alunos(){
         
         case '2':
             console.log(`\n******** Editar Aluno ********\n`)
+
+            // Função que tem como objetivo a padronização de salvamento
+            // usando nas cases
+            function confirmar(c){
+                switch(c){
+                    case 's':
+                        save_bd('/bd_alunos.json', listaAlunos)
+                        console.log('Atualização realizado com sucesso!\n')
+                        break
+
+                    case 'n':
+                        break
+
+                    default:
+                        console.log('Opção incorreta\n')
+                }
+            }
             
             const buscar_aluno = input.question('Nome do Aluno: ')
             const busca = listaAlunos.filter(p => p.nome == buscar_aluno)
@@ -285,6 +274,8 @@ function alunos(){
                     break
 
                 case '4':
+                    console.log(`\n******** Editar Notas ********\n`)
+
                     break
                 case '5':
                     break
@@ -293,26 +284,40 @@ function alunos(){
 
             }
 
-            function confirmar(c){
-                switch(c){
-                    case 's':
-                        salvar
-                        console.log('Atualização realizado com sucesso!\n')
-                        break
+            break
 
-                    case 'n':
-                        break
+        case '3':
+            console.log(`\n******** Excluir Aluno ********\n`)
 
-                    default:
-                        console.log('Opção incorreta\n')
-                }
+            const excluir_aluno = input.question('Nome: ')
+            const confimar_excluir = input.question('Excluir? S/N: ')
+
+            if(confimar_excluir == 's'){
+                const dados = listaAlunos.filter(n => n.nome !== excluir_aluno)
+                
+                console.log(listaAlunos)
+
+                listaAlunos = []
+                dados.forEach(d => listaAlunos.push(d))
+
+                save_bd('/bd_alunos.json', listaAlunos)
+                console.log('Item excluido com sucesso! ')
+
+                console.log(listaAlunos)
+                
             }
 
             break
 
-        case '3':
-            break
         case '4':
+            console.log(`\n******** Busca por Aluno ********\n`)
+            const busca_aluno = input.question('Nome: ')
+            const dados  = listaAlunos.filter(n => n.nome == busca_aluno)
+
+            console.log(`\n==================================`)
+            dados.forEach(i => console.log(`Nome: ${i.nome}\nIdade: ${i.idade} anos\nTurma: ${i.turma}`))
+            console.log(`==================================\n`)
+
             break
         case '5':
             console.log(listaAlunos)
