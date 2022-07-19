@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
 
+    text-decoration: none;
     color: white;
 }
 
@@ -56,6 +57,14 @@
         flex: 5;
         background-color: blue;
         color: white;
+    }
+
+    .dev{
+        padding: 20px;
+    }
+
+    .dev a{
+        color: #91B086;
     }
 
 
