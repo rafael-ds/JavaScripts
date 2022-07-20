@@ -32,7 +32,8 @@
                 <div class="drop">
                     <ul class="list">
                         <li><a href="#" onclick="loadPage('./src/modules/calculadora.html')">Calculadora</a></li>
-                        <li><a href="#" onclick="loadPage('./src/modules/conversor_moeda.html')">Conversor de Moedas</a></li>
+                        <li><a href="#" onclick="loadPage('./src/modules/conversor_moeda.html')">Conversor de Moedas</a>
+                        </li>
                         <li><a href="#" onclick="loadPage('./src/modules/imc.html')">IMC</a></li>
                     </ul>
                 </div>
@@ -46,36 +47,36 @@
 
     <section class="buttons">
         <div class="row">
-            <button class="btn style-button">.</button>
-            <button class="btn style-button">%</button>
-            <button class="btn style-button">c</button>
-            <button class="btn style-button">/</button>
+            <button class="btn style-button" value=".">.</button>
+            <button class="btn style-button" value="%">%</button>
+            <button class="btn style-button" value="c">c</button>
+            <button class="btn style-button" value="/">/</button>
         </div>
 
         <div class="row">
-            <button class="btn">7</button>
-            <button class="btn">8</button>
-            <button class="btn">9</button>
-            <button class="btn style-button">x</button>
+            <button class="btn" value="7">7</button>
+            <button class="btn" value="8">8</button>
+            <button class="btn" value="9">9</button>
+            <button class="btn style-button" value="x">x</button>
         </div>
 
         <div class="row">
-            <button class="btn">4</button>
-            <button class="btn">5</button>
-            <button class="btn">6</button>
-            <button class="btn style-button">-</button>
+            <button class="btn" value="4">4</button>
+            <button class="btn" value="5">5</button>
+            <button class="btn" value="6">6</button>
+            <button class="btn style-button" value="-">-</button>
         </div>
 
         <div class="row">
-            <button class="btn">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn style-button">+</button>
+            <button class="btn" value="1">1</button>
+            <button class="btn" value="2">2</button>
+            <button class="btn" value="3">3</button>
+            <button class="btn style-button" value="+">+</button>
         </div>
 
         <div class="row">
-            <button class="btn zero">0</button>
-            <button class="btn result">=</button>
+            <button class="btn zero" value="0">0</button>
+            <button class="btn result" value="=">=</button>
         </div>
 
 
@@ -85,6 +86,7 @@
         <span class="dev">Desenvolvido por <a href="http://"> Rafael Silva</a></span>
     </footer>
 
+    <script src="./src/static/js/calculator.js"></script>
     <script src="./src/static/js/toggle.js"></script>
     <script src="./src/static/js/ajax.js"></script>
     <script src="./server.js"></script>
