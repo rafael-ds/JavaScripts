@@ -7,6 +7,7 @@
 
     text-decoration: none;
     color: white;
+
 }
 
 body {
@@ -14,10 +15,49 @@ body {
     flex-direction: column;
 }
 
+.header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.menu{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.menu .material-symbols-outlined {
+    font-size: 3em;
+}
+
+.dropdown{
+    position: absolute;
+    margin-top: 50px;
+}
+
+.list {
+        display: flex;
+    flex-direction: column;
+    list-style: none;
+
+    padding: 10px;
+    margin-left: -40px;
+}
+
+.drop{
+    display: none;
+}
+
+.menu ul li {
+    padding: 5px;
+}
 
 #display {
-    height: 33vh;
+    height: 28vh;
     padding: 20px;
+
 }
 
 .buttons {
@@ -79,30 +119,31 @@ body {
 
 @media (min-width: 577px) {
 
-    #display{
+    #display {
         height: 20vh;
     }
 
-    .buttons{
+    .buttons {
         padding: 10px;
     }
 
-    .btn{
+    .btn {
         font-size: 1em;
         width: 100px;
         padding: 5px;
         margin: 5px;
     }
 
-    .result{
+    .result {
         flex: none;
         width: 36%;
     }
-    .zero{
+
+    .zero {
         flex: none;
     }
 
-    .dev{
+    .dev {
         padding: 10px;
     }
 }

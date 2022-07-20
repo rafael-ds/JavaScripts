@@ -14,12 +14,30 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Nunito+Sans:wght@300&family=Nunito:wght@200;300;400;500;600;700;800&family=Roboto:wght@100;300;400;500;700;900&family=Work+Sans:wght@700&display=swap"
         rel="stylesheet">
 
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
     <title>Calculadora | IMC | Conversor</title>
 </head>
 
 <body>
 
-    <header>
+    <header class="header">
+
+        <div class="menu">
+            <span class="material-symbols-outlined" toggle>
+                menu
+            </span>
+            <div class="dropdown">
+                <div class="drop">
+                    <ul class="list">
+                        <li><a href="#" onclick="loadPage()">Calculadora</a></li>
+                        <li><a href="#" onclick="loadPage()">Conversor de Moedas</a></li>
+                        <li><a href="#" onclick="loadPage()">IMC</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
     </header>
 
@@ -67,6 +85,7 @@
         <span class="dev">Desenvolvido por <a href="http://"> Rafael Silva</a></span>
     </footer>
 
+    <script src="./src/static/js/toggle.js"></script>
     <script src="./src/static/js/ajax.js"></script>
     <script src="./server.js"></script>
 </body>
