@@ -1,9 +1,8 @@
 const btn = document.querySelectorAll('button')
 
-for(let i = 0; i < btn.length; i++){
-    btn[i].onclick = clique
-}
 
-function clique(){
-    console.log('clicou')
-}
+btn.forEach(e => {
+    e.addEventListener('click', function(){
+        console.log('clicando')
+    })
+})
